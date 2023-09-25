@@ -9,7 +9,7 @@ import * as L from 'leaflet';
 export class HomePage {
 
   map!: L.Map;
-  customIcon!: L.Icon;
+  markerIcon!: L.Icon;
   layerControl!: L.Control.Layers;
 
   constructor() {}
@@ -19,10 +19,21 @@ export class HomePage {
 
   ionViewDidEnter(){
     this.map = L.map('mapId').setView([-6.899509052040486, 107.61582845122025], 11)
-    this.customIcon = L.icon({
-      iconUrl: 'http://www.w3.org/2000/svg',
-      iconSize: [32, 32], // ukuran ikon
+
+    //Marker
+    this.markerIcon = L.icon({
+      iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png', // Ganti dengan URL ikon marker default dari CDN
+      iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png', // Ganti dengan URL ikon marker default 2x dari CDN
+      shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png', // Ganti dengan URL bayangan marker default dari CDN
+      iconSize: [30, 41], // Sesuaikan dengan ukuran ikon Anda
+      iconAnchor: [15, 40], // Sesuaikan dengan titik penunjuk ikon Anda
     });
+  
+    const marker = L.marker([-6.902446420615131, 107.61872449230245], {icon: this.markerIcon}).addTo(this.map)
+    .bindPopup('Gedung Sate')
+    .openPopup();
+    // const marker1 = L.marker([-7.784313570541377, 110.37618541869247], { icon: markerIcon }).addTo(this.map).bindPopup('Antah branta').openPopup();
+    // const marker2 = L.marker([-7.784810704248861, 110.37386847860239], { icon: markerIcon }).addTo(this.map).bindPopup('Antah branta').openPopup();
 
     var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -43,9 +54,6 @@ export class HomePage {
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
     });
 
-    var nasa = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-      maxZoom: 19,
-    });
 
     var baseMaps = {
     "OpenStreetMap": osm,
@@ -60,9 +68,7 @@ export class HomePage {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-    L.marker([-6.902446420615131, 107.61872449230245], {icon: this.customIcon}).addTo(this.map)
-    .bindPopup('Gedung Sate')
-    .openPopup();
+    
   }
 
     
